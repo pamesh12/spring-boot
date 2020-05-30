@@ -1,1 +1,1 @@
-{% include_relative ../docs/spring-cache-redis.md %}
+@[:markdown](../docs/spring-cache-redis.md)

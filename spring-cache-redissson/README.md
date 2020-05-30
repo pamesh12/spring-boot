@@ -1,1 +1,1 @@
-@[Spring Cache Redis](../docs/spring-cache-redis.md)
+Documentation [link](../docs/spring-cache-redis.md)

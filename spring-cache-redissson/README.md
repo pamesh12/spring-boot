@@ -1,1 +1,1 @@
-@[:markdown](../docs/spring-cache-redis.md)
+@[Spring Cache Redis](../docs/spring-cache-redis.md)

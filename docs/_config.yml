@@ -1,5 +1,3 @@
 theme: jekyll-theme-cayman
 plugins:
   - jekyll-sitemap
-  
-gem install markdown_helper  

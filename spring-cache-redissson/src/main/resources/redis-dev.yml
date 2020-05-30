@@ -1,0 +1,12 @@
+---
+singleServerConfig:
+  idleConnectionTimeout: 10000
+  connectTimeout: 2000
+  timeout: 10000
+  retryAttempts: 1
+  retryInterval: 1000
+  address: redis://127.0.0.1:6379
+  connectionMinimumIdleSize: 32
+  connectionPoolSize: 64
+threads: 16
+nettyThreads: 64

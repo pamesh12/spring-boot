@@ -1,0 +1,30 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active:
+    - dev  
+  mvc:
+    servlet:
+      load-on-startup: 1
+  datasource:
+    url: jdbc:h2:mem:restdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+    data:    - classpath:db/data.sql
+  jpa:
+    database-platform: H2
+    hibernate:      ddl-auto: create-drop
+  h2:
+    console:
+      enabled: true
+      
+application:  user: pamesh,bansal
+  async:    core-pool-size: 5
+    max-pool-size: 10
+    queue-capacity: 100
+  host: localhost
+  port: 100
+    

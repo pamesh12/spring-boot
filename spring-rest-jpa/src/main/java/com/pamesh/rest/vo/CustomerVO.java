@@ -20,12 +20,12 @@ public class CustomerVO {
 	private String contactNumber;
 	
 	/** The first line. */
-	private String addFirstLine;
+	//private String addFirstLine;
 	
 	/** The second line. */
-	private String addSecondLine;
+	//private String addSecondLine;
 	
-	private Long cityId;
+	//private Long cityId;
 	
-	private Long stateId;
+	//private Long stateId;
 }

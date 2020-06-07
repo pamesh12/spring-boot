@@ -36,7 +36,7 @@ public class AsyncEntityAuditEventWriter {
      */
     @Async
     public void writeAuditEvent(Object target, EntityAuditAction action) {
-        log.debug("-------------- Post {} audit  --------------", action.value());
+        log.info("-------------- Post {} audit  --------------", action.value());
         try {
             EntityAuditEvent auditedEntity = prepareAuditEntity(target, action);
             if (auditedEntity != null) {

@@ -1,5 +1,7 @@
 package com.pamesh.rest.service;
 
+import java.util.List;
+
 import com.pamesh.rest.vo.CustomerVO;
 
 /**
@@ -15,5 +17,10 @@ public interface CustomerService {
 	 * @param vo the vo
 	 */
 	Long save(CustomerVO vo);
+	
+	
+	List<CustomerVO> getCustomers();
+	
+	CustomerVO getCustomers(Long id);
 
 }

@@ -1,15 +1,9 @@
 package com.pamesh.rest.domain;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -48,9 +42,10 @@ public class Customer extends AbstractAuditingEntity{
 	private String contactNumber;
 
 	/** The addresses. */
-	@Builder.Default
+	/*@Builder.Default
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "customer_id")
 	private Set<Address> addresses = new HashSet<>();
+	*/
 
 }

@@ -22,7 +22,7 @@ class SpringRestJpaApplicationTests {
 	@Test
 	public void saveCustomer() {
 		CustomerVO vo = CustomerVO.builder().firstName("pamesh").lastName("bansal").contactNumber("1234567890")
-				.cityId(1L).stateId(1L).addFirstLine("firstLine").addSecondLine("second line").build();
+				.build();
 		this.restTemplate.postForEntity("http://localhost:" + port + "/customer", vo, ResponseEntity.class);
 	}
 

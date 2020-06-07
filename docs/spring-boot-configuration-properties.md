@@ -8,7 +8,8 @@
 
 Spring finds and registers `@ConfigurationProperties` classes via **classpath scanning**. The classpath scanner enabled by `@SpringBootApplication` finds the `ApplicationProperties` class, even though we didn&#8217;t annotate this class with `@Component`.
 
-<pre class="brush: java; title: ; notranslate" title="">@ConfigurationProperties
+```java
+@ConfigurationProperties
 public class ApplicationProperties {
    private String host; 
    private Integer port;
@@ -16,32 +17,35 @@ public class ApplicationProperties {
    //setters and getters
 
 }
-</pre>
+```
 
 It can also be enabled via `@Bean`&nbsp;method in a&nbsp;`@Configuration`&nbsp;class
 
-<pre class="brush: java; title: ; notranslate" title="">@Bean
+```java
+@Bean
 @ConfigurationProperties(prefix = "application")
 public ApplicationProperties applicationProperties() {		
        return new ApplicationProperties();
 }
-</pre>
+```
 
-### <span id="EnableConfigurationProperties">@EnableConfigurationProperties</span>
+### @EnableConfigurationProperties
 
 Sometimes, classes annotated with&nbsp;`@ConfigurationProperties`&nbsp;might not be suitable for scanning. In these cases, we can specify the list of types to process using the&nbsp;`@EnableConfigurationProperties`&nbsp;annotation on any&nbsp;`@Configuration`&nbsp;class.
 
-<pre class="brush: java; title: ; notranslate" title="">@Configuration
+```java
+@Configuration
 @EnableConfigurationProperties(ApplicationProperties.class)
 public class AppConfig{
 }
-</pre>
+```
 
-### <span id="ConfigurationPropertiesScan">@ConfigurationPropertiesScan</span>
+### @ConfigurationPropertiesScan
 
 We can use&nbsp;the&nbsp;_`@ConfigurationPropertiesScan`&nbsp;_annotation to scan custom locations for configuration property classes. Typically, it is added to the main application class that is annotated with&nbsp;`@SpringBootApplication`&nbsp;but it can be added to any&nbsp;`@Configuration`&nbsp;class. By default, scanning will occur from the package of the class that declares the annotation. If you want to define specific packages to scan, we can provide the package as shown below.
 
-<pre class="brush: java; title: ; notranslate" title="">@SpringBootApplication
+```java
+@SpringBootApplication
 @ConfigurationPropertiesScan("com.pamesh.properties")
 public class Application { 
  
@@ -49,18 +53,19 @@ public class Application {
         SpringApplication.run(Application .class, args); 
     } 
 }
-</pre>
+```
 
-The following properties file will set the fields in `ApplicationProperties`:
+The following properties file will set the fields in `ApplicationProperties`  
+    application.host=localhost  
+    application.port=8080
 
-<pre class="wp-block-preformatted">application.host=localhost
-application.port=8080</pre>
 
-## <span id="Nested_Properties"><strong>Nested Properties</strong></span>
+## Nested Properties
 
 We can configure nested properties using the method for lists, maps and custom classes.
 
-<pre class="brush: java; title: ; notranslate" title="">public class ApplicationProperties {
+```java
+public class ApplicationProperties {
 
    private String host;
    private Integer port;
@@ -68,9 +73,9 @@ We can configure nested properties using the method for lists, maps and custom c
    //Custom Class
    private final Async async = new Async();
    //List
-   private List&lt;String&gt; ids;
+   private List<String> ids;
    //Map
-   private Map&lt;String, String&gt; headers;
+   private Map<String, String> headers;
 }
 
 @ConfigurationProperties(prefix="application.async")
@@ -81,31 +86,32 @@ public class Async {
 	private int queueCapacity = 500;
 
 }
-</pre>
-
+```
 The following properties file will set the fields in `ApplicationProperties`:
 
-<pre class="wp-block-preformatted">application.host=localhost
-application.port=8080
-### Async Properties #####
-application.async.core-pool-size= 10
-application.async.max-pool-size= 50
-application.async.queue-capacity= 500
 
-#### List #######
-application.ids[0]=1
-application.ids[1]=2
+    
+        application.host=localhost
+        application.port=8080
+        ### Async Properties #####
+        application.async.core-pool-size= 10
+        application.async.max-pool-size= 50
+        application.async.queue-capacity= 500
+        
+        #### List #######
+        application.ids[0]=1
+        application.ids[1]=2
+        
+        ### Map ####
+        application.headers.appId = id ### key=appId, value = id
+        application.headers.auth = authValue 
 
-### Map ####
-application.headers.appId = id ### key=appId, value = id
-application.headers.auth = authValue 
-</pre>
-
-## <span id="Validation_of_properties">Validation of properties</span>
+## Validation of properties
 
 Spring Boot attempts to validate&nbsp;`@ConfigurationProperties`&nbsp;classes whenever they are annotated with Spring’s&nbsp;`@Validated`&nbsp;annotation.
 
-<pre class="brush: java; title: ; notranslate" title="">import org.springframework.validation.annotation.Validated;
+```java 
+import org.springframework.validation.annotation.Validated;
 
 @Bean
 @ConfigurationProperties(prefix = "application")
@@ -113,12 +119,9 @@ Spring Boot attempts to validate&nbsp;`@ConfigurationProperties`&nbsp;classes wh
 public ApplicationProperties applicationProperties() {		
        return new ApplicationProperties();
 }
-</pre>
-
-<div style="height:23px" aria-hidden="true" class="wp-block-spacer">
-</div>
-
-<pre class="brush: java; title: ; notranslate" title="">import javax.validation.constraints.NotBlank;
+```
+```java
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
@@ -131,11 +134,12 @@ public class ApplicationProperties {
     @NotNull
     private Integer port;
 }
-</pre>
+```
 
 To ensure that validation is always triggered for nested properties, even when no properties are found, the associated field must be annotated with&nbsp;`@Valid`. In below example `Async` has been annotated with it.
 
-<pre class="brush: java; title: ; notranslate" title="">import javax.validation.Valid;
+```java
+import javax.validation.Valid;
 
 public class ApplicationProperties {
 
@@ -143,44 +147,46 @@ public class ApplicationProperties {
    @Valid
    private final Async async = new Async();
 }
-</pre>
+```
 
-## <span id="Properties_Conversion">Properties Conversion</span>
+## Properties Conversion
 
 Spring Boot attempts to coerce the external application properties to the right type when it binds to the&nbsp;`@ConfigurationProperties`&nbsp;beans.
 
-### <span id="Converting_durations">Converting durations</span>
+### Converting durations
 
 If you expose a&nbsp;`java.time.Duration`&nbsp;property, the following formats in application properties are available:
 
   * A regular&nbsp;`long`&nbsp;representation (using milliseconds as the default unit unless a&nbsp;`@DurationUnit`&nbsp;has been specified)
   * A more readable format where the value and the unit are coupled (e.g.&nbsp;`10s`&nbsp;means 10 seconds)
 
-<pre class="brush: java; title: ; notranslate" title="">public class ApplicationProperties{
+```java
+public class ApplicationProperties{
  
     private Duration time;
+    
     @DurationUnit(ChronoUnit.SECONDS)
     private Duration timeInSeconds;
     
 }
-</pre>
+```
 
 And properties file is 
 
-<pre class="wp-block-preformatted">application.time=10
-application.timeInSeconds=20s</pre>
+    application.time=10
+    application.timeInSeconds=20s
 
 As a result, the field&nbsp;_time_ will have a value of 10 milliseconds, and&nbsp;_timeInSeconds_will have a value of 20 seconds.
 
 **The supported units are&nbsp;_ns, us, ms, s, m, h_&nbsp;and&nbsp;_d_&nbsp;for nanoseconds, microseconds, milliseconds, seconds, minutes, hours, and days, respectively.**
 
-### <span id="Custom_Converter">Custom Converter</span>
+### Custom Converter
 
 For custom type conversion, we can provide custom&nbsp;`Converters`&nbsp;(with bean definitions annotated as&nbsp;`@ConfigurationPropertiesBinding`).
 
 Add User class
-
-<pre class="brush: java; title: ; notranslate" title="">@NoArgsConstructor
+```java
+@NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class User {
@@ -189,23 +195,25 @@ public class User {
 	private String lastName;
 }
 
-</pre>
+```
 
 Now add the class to properties class
 
-<pre class="brush: java; title: ; notranslate" title="">public class ApplicationProperties {	
+```java 
+public class ApplicationProperties {	
 	@Valid
 	private User user = new User();
 }
-</pre>
+```
 
 Now create a custom converter and use&nbsp;_**`@ConfigurationPropertiesBinding`**_&nbsp;annotation to register our custom**&nbsp;**_**Converter**_.
 
-<pre class="brush: java; title: ; notranslate" title="">import org.springframework.boot.context.properties.ConfigurationPropertiesBinding;
+```java
+import org.springframework.boot.context.properties.ConfigurationPropertiesBinding;
 import org.springframework.core.convert.converter.Converter;
 
 @ConfigurationPropertiesBinding
-public class UserConverter implements Converter&lt;String,User&gt; {
+public class UserConverter implements Converter<String,User>; {
 
 	@Override
 	public User convert(String source) {
@@ -214,10 +222,10 @@ public class UserConverter implements Converter&lt;String,User&gt; {
 	}
 }
 
-</pre>
+```
 
 Now set value in properties file
 
-<pre class="wp-block-preformatted">application.user=pamesh,bansal</pre>
+`application.user=pamesh,bansal`
 
-Above property value will result in `<strong><em>User [firstName=pamesh, lastName=bansal]</em></strong>`
+Above property value will result in `User [firstName=pamesh, lastName=bansal]`

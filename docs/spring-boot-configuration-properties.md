@@ -1,3 +1,14 @@
+- [Spring Boot Configuration Properties](#spring-boot-configuration-properties)
+- [<span id="Enabling_Configuration_Properties">Enabling Configuration Properties</span>](#enabling-configuration-properties)
+  * [<span id="ConfigurationProperties">@ConfigurationProperties</span>](#configurationproperties)
+  * [@EnableConfigurationProperties](#enableconfigurationproperties)
+  * [@ConfigurationPropertiesScan](#configurationpropertiesscan)
+- [Nested Properties](#nested-properties)
+- [Validation of properties](#validation-of-properties)
+- [Properties Conversion](#properties-conversion)
+  * [Converting durations](#converting-durations)
+  * [Custom Converter](#custom-converter)
+
 ## Spring Boot Configuration Properties
 
 `@ConfigurationProperties` is an annotation for externalized configuration in Spring Boot. This can be added to a class definition or a&nbsp;`@Bean`&nbsp;method in a&nbsp;`@Configuration`&nbsp;class, if you want to bind and validate some external Properties (e.g. from a .properties file). Binding is either performed by calling setters on the annotated class or, if&nbsp;[`@ConstructorBinding`](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/context/properties/ConstructorBinding.html)&nbsp;is in use, by binding to the constructor parameters.
